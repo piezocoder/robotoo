@@ -15,6 +15,8 @@ async def openai_response(input_text: str):
     # )
 
     client = Clients()
+    if base_url := os.getenv("LLM_BASE_URL"):
+        client.base_url = base_url
     return await client.aclient_azure_4o.chat.completions.create(
         model=settings.LLM_MODEL_NAME,
         temperature=0.5,

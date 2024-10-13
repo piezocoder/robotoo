@@ -16,7 +16,7 @@ class Clients:
     def _create_azure_client(self):
         # if os.getenv(OPENAI_API_KEY) exists, use it
         if os.getenv("OPENAI_API_KEY"):
-            return OpenAI()
+            return OpenAI()  # reads api_key from env by default
         else:
             return AzureOpenAI(
                 api_key=os.getenv("AZURE_OPENAI_API_KEY"),
