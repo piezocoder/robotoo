@@ -116,6 +116,32 @@ services:
             - beat
         ports:
             - 5555:5555
+
+    nginx:
+        build:
+            context: ./nginx
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - /etc/letsencrypt:/etc/letsencrypt
+            - /var/www/certbot:/var/www/certbot
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on:
+            - frontend
+        restart: always
+
+    certbot:
+        image: certbot/certbot
+        volumes:
+            - /etc/letsencrypt:/etc/letsencrypt
+            - /var/www/certbot:/var/www/certbot
+            - ./certbot_entrypoint.sh:/certbot_entrypoint.sh
+        depends_on:
+            - nginx
+        entrypoint: ["/bin/sh", "/certbot_entrypoint.sh"]
+        restart: always
+
 # networks:
 #   starmoon-network:
 #     driver: bridge

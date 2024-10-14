@@ -18,6 +18,9 @@ RUN apt-get update \
 # Install Poetry
 RUN pip install poetry
 
+# Update the Poetry lock file
+RUN poetry lock
+
 # Install poetry dependencies
 RUN poetry install --only main
 
